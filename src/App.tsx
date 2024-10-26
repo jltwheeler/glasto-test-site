@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 const Container = styled.div`
   max-width: 800px;
@@ -98,9 +99,38 @@ const ClearButton = styled.button`
   }
 `;
 
+const ShowWebsiteButton = styled.button`
+  background-color: #ff0000;
+  color: #fff;
+  padding: 30px 50px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 50px auto;
+  display: block;
+  width: 80%;
+  max-width: 400px;
+  text-transform: uppercase;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+  }
+`;
+
+const SpinnerContainer = styled.div`
+  margin-bottom: 20px;
+`;
+
 const App: React.FC = () => {
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [postcode, setPostcode] = useState("");
+  const [showWebsite, setShowWebsite] = useState(false);
+
   const additionalTickets = [
     { regNumber: "", postcode: "" },
     { regNumber: "", postcode: "" },
@@ -113,6 +143,22 @@ const App: React.FC = () => {
     e.preventDefault();
     // Handle form submission
   };
+
+  if (!showWebsite) {
+    return (
+      <Container>
+        <SpinnerContainer>
+          <LoadingSpinner />
+          <div style={{ textAlign: "center" }}>
+            Hold tight you're in the queue...
+          </div>
+        </SpinnerContainer>
+        <ShowWebsiteButton onClick={() => setShowWebsite(true)}>
+          Show Website
+        </ShowWebsiteButton>
+      </Container>
+    );
+  }
 
   return (
     <Container>
